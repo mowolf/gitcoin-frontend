@@ -1,6 +1,6 @@
 <template>
     <v-flex mb-5 xs12 footer>
-        <h2 class="headline font-weight-bold">Important Links</h2>
+        <h2 class="headline font-weight-bold "> <span class="extra">Important Links</span></h2>
     <v-layout justify-center>
         <a
                 v-for="(link, i) in importantLinks"
@@ -17,7 +17,7 @@
 
 <script>
 export default {
-    name: 'footer',
+    name: 'basefooter',
     data: () => ({
         importantLinks: [
             {
@@ -31,5 +31,16 @@ export default {
         ],
     })
 }
-
 </script>
+
+<style>
+    .footer {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        left: 0;
+        background: #191719;
+        padding: 60px;
+        margin: 0;
+    }
+</style>
