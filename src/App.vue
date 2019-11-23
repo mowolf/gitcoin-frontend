@@ -41,4 +41,12 @@ export default {
       padding-left: 0.3em;
       padding-right: 0.3em;
   }
+  .v-btn {
+      cursor: pointer !important;
+      text-decoration: none !important;
+      color: white !important;
+      margin-top: 22px !important;
+      font-size: 16px !important;
+      background-color: black !important;
+  }
 </style>

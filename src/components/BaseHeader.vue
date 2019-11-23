@@ -1,12 +1,12 @@
 <template>
     <v-layout text-center wrap>
     <div class="Header">
-
         <p class="subheading font-weight-regular connected">
             You are connected!
         </p>
-
         <h1>Node: <span class="extra">{{node}}</span></h1>
+        <v-btn class="l-button" href="/">Select other node</v-btn>
+        <v-btn v-if="wallet != ''" class="r-button" :href="'/node/' + node">Back to Blockchain</v-btn>
 
     </div>
     </v-layout>
@@ -17,10 +17,15 @@
         name: 'baseheader',
         data: () => ({
             node: '',
+            wallet: '',
         }),
         created() {
             // get node
             this.node = this.$route.params.node;
+            this.wallet = this.$route.params.wallet;
+            if (this.wallet == null) {
+                this.wallet = ''
+            }
         }
     }
 </script>
@@ -32,11 +37,40 @@
      width: 100%;
      padding-bottom: 2em;
      color: white;
+     top: 0;
+     padding-top: 1em;
  }
 
+ .text-center {
+     margin-top: 0 !important;
+ }
 .connected {
     color: #e7e6e9;
 
 }
+ .r-button {
+     background-color: #232225 !important;
+     position: absolute;
+     right: 1em;
+     top: 0.1em;
+ }
+    .l-button {
+        position: absolute;
+        left: 1em;
+        top: 0.1em;
+        background-color: #232225 !important;
+    }
+ .l-button2 {
+     position: absolute;
+     left: 1em;
+     top: 4em;
+     background-color: #232225 !important;
+ }
+    @media screen and (max-width: 768px)  {
+        .l-button {
+            left: 0em;
+            right: 0em;
+        }
+    }
 
 </style>

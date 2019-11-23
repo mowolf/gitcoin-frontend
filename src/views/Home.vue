@@ -47,11 +47,6 @@
 </script>
 
 <style>
-  .v-btn {
-    margin-top: 22px !important;
-    font-size: 16px !important;
-    background-color: black !important;
-  }
   .search-bar {
     padding: 10px;
     border-style: solid;

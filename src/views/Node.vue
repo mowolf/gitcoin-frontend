@@ -70,16 +70,16 @@
           <template v-slot:item.toAddress="{ item }">
             <v-tooltip bottom>
               <template v-slot:activator="{ on }">
-                <router-link :to=" node + 'wallet/'+ encodeURI(item.toAddress).replace(/\//g, '-')">
+                <router-link :to=" node + 'wallet/'+ encodeURIComponent(item.toAddress)">
                   <span v-on="on">{{item.toAddress.substring(0,20)}}...</span>
                 </router-link>
               </template>
               <span>{{item.toAddress}}</span>
             </v-tooltip>
           </template>
-
         </v-data-table>
 
+        <div class="bottom"></div>
       </v-flex>
     </v-layout>
   </v-container>
@@ -100,6 +100,7 @@
         { text: 'Signature', value: 'signature_short' },
       ],
       blockHeaders: [
+        { text: 'Earned G', value: 'amount' },
         { text: 'Pull request' , value: 'fromAddress'},
         { text: 'to Address', value: 'toAddress' },
       ],
@@ -110,25 +111,24 @@
       blockData: "",
     }),
     methods: {
+      getRealTime: function (timestamp) {
+        var date = new Date(timestamp);
+        var day = date.getDate() + "." + date.getMonth() + " " + date.getFullYear();
+        var hours = "0" + date.getHours();
+        var minutes = "0" + date.getMinutes();
+        var seconds = "0" + date.getSeconds();
+        return day + " " + hours.substr(-2) + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
+      },
       getApi: async function (apiUrl) {
         let res = await this.axios.get(apiUrl)
         this.blockchain = res.data
         for (var i = 0; i < this.blockchain.length; i++) {
 
           this.blockchain[i]['transactions'] = this.blockchain[i]['data'].length
-
           this.blockchain[i]['creator_short'] = this.blockchain[i]['creator'].substring(0, 20) + "..."
           this.blockchain[i]['signature_short'] = this.blockchain[i]['signature'].substring(0, 20) + "..."
-
-          var date = new Date(this.blockchain[i]['timestamp']);
-          var day = date.getDate() + "." + date.getMonth() + " " + date.getFullYear();
-          var hours = "0" + date.getHours();
-          var minutes = "0" + date.getMinutes();
-          var seconds = "0" + date.getSeconds();
-          this.blockchain[i]['formattedTime'] = day + " " + hours.substr(-2) + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
+          this.blockchain[i]['formattedTime'] = this.getRealTime(this.blockchain[i]["timestamp"])
         }
-
-
       },
       showBlock: function(item) {
         this.blockData = item
@@ -146,14 +146,18 @@
 
 <style>
   .elevation-1 {
-    margin-top: 3em;
+    margin-top: 1em !important;
     padding: 1em;
     border: 5px solid white;
   }
+
 .info_ {
   margin-top: 3em;
   padding: 2em;
   background-color: rgb(66,66,66);
 }
+.bottom {
+  padding-bottom: 100px !important;
 
+}
 </style>
