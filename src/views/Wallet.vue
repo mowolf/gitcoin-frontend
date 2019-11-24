@@ -14,6 +14,9 @@
           </v-tooltip>
       </v-flex>
     </v-layout>
+    
+    <v-btn class="blockchain-button" :href="'/node/' + node">Back to Blockchain</v-btn>
+
 
   </v-container>
   </div>
@@ -50,6 +53,14 @@ import BaseHeader from "../components/BaseHeader";
 </script>
 
 <style>
+
+  .blockchain-button {
+    background-color: #232225 !important;
+    position: relative;
+    right: 0;
+    top: 0;
+  }
+
   .subheading {
     margin-top: 1em;
   }

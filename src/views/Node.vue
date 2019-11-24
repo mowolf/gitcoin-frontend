@@ -9,16 +9,17 @@
         <v-data-table
                 :headers="headers"
                 :items="blockchain"
-                :items-per-page="5"
+                :items-per-page="10"
                 class="elevation-1"
                 dark
+                disable-sort
         >
 
           <template v-slot:item.creator_short="{ item }">
           <v-tooltip bottom>
             <template v-slot:activator="{ on }">
 
-              <router-link :to="node +'/wallet/'+ encodeURI(item.creator).replace(/\//g, '-')" v-if="item.creator_short != 'Genesis Block'">
+              <router-link :to="node +'/wallet/'+ encodeURI(item.creator).replace(/\//g, '-')" v-if="item.creator != 'Genesis Block'">
                 <span v-on="on">{{item.creator_short}}</span>
               </router-link>
 
@@ -62,7 +63,7 @@
         <v-data-table div v-if="blockData != ''"
                 :headers="blockHeaders"
                 :items="blockData.data"
-                :items-per-page="5"
+                :items-per-page="20"
                 class="elevation-1"
                 dark
         >
@@ -90,7 +91,7 @@
           <template v-slot:item.toAddress="{ item }">
             <v-tooltip bottom>
               <template v-slot:activator="{ on }">
-                <router-link :to=" node + 'wallet/'+ encodeURIComponent(item.toAddress)">
+                <router-link :to=" node + '/wallet/'+ encodeURIComponent(item.toAddress)">
                   <span v-on="on">{{item.toAddress.substring(0,20)}}...</span>
                 </router-link>
               </template>
@@ -141,11 +142,12 @@
       },
       getApi: async function (apiUrl) {
         let res = await this.axios.get(apiUrl)
-        this.blockchain = res.data
+        this.blockchain = res.data.reverse()
         for (var i = 0; i < this.blockchain.length; i++) {
 
           if (this.blockchain[i]['creator'] == '') {
             this.blockchain[i]['creator_short'] = 'Genesis Block'
+            this.blockchain[i]['creator'] = 'Genesis Block'
             this.blockchain[i]['transactions'] = this.blockchain[i]['data'].length
             this.blockchain[i]['signature_short'] = ''
             this.blockchain[i]['formattedTime'] = this.getRealTime(this.blockchain[i]["timestamp"])
@@ -156,6 +158,8 @@
             this.blockchain[i]['signature_short'] = this.blockchain[i]['signature'].substring(0, 20) + "..."
             this.blockchain[i]['formattedTime'] = this.getRealTime(this.blockchain[i]["timestamp"])
           }
+
+
 
         }
       },

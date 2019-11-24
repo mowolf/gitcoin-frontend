@@ -43,4 +43,10 @@ export default {
         padding: 60px;
         margin: 0;
     }
+    @media screen and (max-width: 768px)  {
+        .footer {
+            position: relative;
+            margin-top: 100px;
+        }
+    }
 </style>

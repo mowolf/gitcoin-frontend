@@ -6,8 +6,6 @@
         </p>
         <h1>Node: <span class="extra">{{node}}</span></h1>
         <v-btn class="l-button" href="/">Select other node</v-btn>
-        <v-btn v-if="wallet != ''" class="r-button" :href="'/node/' + node">Back to Blockchain</v-btn>
-
     </div>
     </v-layout>
 </template>
@@ -17,15 +15,10 @@
         name: 'baseheader',
         data: () => ({
             node: '',
-            wallet: '',
         }),
         created() {
             // get node
             this.node = this.$route.params.node;
-            this.wallet = this.$route.params.wallet;
-            if (this.wallet == null) {
-                this.wallet = ''
-            }
         }
     }
 </script>
@@ -60,12 +53,7 @@
         top: 0;
         background-color: #232225 !important;
     }
- .l-button2 {
-     position: absolute;
-     left: 1em;
-     top: 4em;
-     background-color: #232225 !important;
- }
+
     @media screen and (max-width: 768px)  {
         .l-button {
             left: 0;
