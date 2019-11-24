@@ -1,9 +1,7 @@
 <template>
   <div>
     <BaseHeader></BaseHeader>
-
   <v-container class="dark">
-
     <h1 class="">Total coins:  <span class="extra"> {{money}} G</span></h1>
     <br>
     <v-layout text-center wrap>

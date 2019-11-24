@@ -14,18 +14,16 @@
                 dark
         >
 
-          <template v-slot:item.transactions="{ item }">
-              <button v-on:click="showBlock(item)">
-                <b>{{item.transactions}}</b>
-              </button>
-          </template>
-
           <template v-slot:item.creator_short="{ item }">
           <v-tooltip bottom>
             <template v-slot:activator="{ on }">
-              <router-link :to=" node +'/wallet/'+ encodeURI(item.creator).replace(/\//g, '-')">
+
+              <router-link :to="node +'/wallet/'+ encodeURI(item.creator).replace(/\//g, '-')" v-if="item.creator_short != 'Genesis Block'">
                 <span v-on="on">{{item.creator_short}}</span>
               </router-link>
+
+              <span v-if="item.creator_short == 'Genesis Block'">Genesis Block</span>
+
             </template>
             <span>{{item.creator}}</span>
           </v-tooltip>
@@ -39,13 +37,27 @@
             <span>{{item.signature}}</span>
           </v-tooltip>
         </template>
+
+          <template v-slot:item.transactions="{ item }">
+            <v-tooltip bottom>
+              <template v-slot:activator="{ on }">
+                <span v-on="on">
+                  <button v-on:click="showBlock(item)" v-if="item.transactions != 0">
+                    <b>{{item.transactions}}</b>
+                  </button>
+                  <span v-if="item.transactions == 0"> {{item.transactions}}
+                  </span>
+                </span>
+              </template>
+              <span>Click to see the block contents.</span>
+            </v-tooltip>
+          </template>
+
         </v-data-table>
 
-
         <div v-if="blockData == ''" class="info_">
-<p>
-  Click on the <b># of Transactions</b> to explore the contents
-</p>        </div>
+          <p>Click on the <b># of Transactions</b> to explore the contents</p>
+        </div>
 
         <v-data-table div v-if="blockData != ''"
                 :headers="blockHeaders"
@@ -56,16 +68,24 @@
         >
 
           <template v-slot:item.fromAddress="{ item }">
-          <v-tooltip bottom>
-            <template v-slot:activator="{ on }">
-              <a :href="item.fromAddress" target="_blank">
-                <span v-on="on">{{item.fromAddress}}</span>
-              </a>
-            </template>
-            <span>This takes you to the pull request.</span>
-          </v-tooltip>
-        </template>
+            <v-tooltip bottom>
+              <template v-slot:activator="{ on }">
+                <a :href="item.fromAddress" target="_blank">
+                  <span v-on="on">{{item.fromAddress}}</span>
+                </a>
+              </template>
+              <span>This takes you to the pull request.</span>
+            </v-tooltip>
+          </template>
 
+          <template v-slot:item.amount="{ item }">
+            <v-tooltip bottom>
+              <template v-slot:activator="{ on }">
+                  <span  v-on="on">{{item.amount}} G</span>
+              </template>
+              <span>Earned gitcoin via this pull request.</span>
+            </v-tooltip>
+          </template>
 
           <template v-slot:item.toAddress="{ item }">
             <v-tooltip bottom>
@@ -124,14 +144,24 @@
         this.blockchain = res.data
         for (var i = 0; i < this.blockchain.length; i++) {
 
-          this.blockchain[i]['transactions'] = this.blockchain[i]['data'].length
-          this.blockchain[i]['creator_short'] = this.blockchain[i]['creator'].substring(0, 20) + "..."
-          this.blockchain[i]['signature_short'] = this.blockchain[i]['signature'].substring(0, 20) + "..."
-          this.blockchain[i]['formattedTime'] = this.getRealTime(this.blockchain[i]["timestamp"])
+          if (this.blockchain[i]['creator'] == '') {
+            this.blockchain[i]['creator_short'] = 'Genesis Block'
+            this.blockchain[i]['transactions'] = this.blockchain[i]['data'].length
+            this.blockchain[i]['signature_short'] = ''
+            this.blockchain[i]['formattedTime'] = this.getRealTime(this.blockchain[i]["timestamp"])
+          }
+          else {
+            this.blockchain[i]['transactions'] = this.blockchain[i]['data'].length
+            this.blockchain[i]['creator_short'] = this.blockchain[i]['creator'].substring(0, 20) + "..."
+            this.blockchain[i]['signature_short'] = this.blockchain[i]['signature'].substring(0, 20) + "..."
+            this.blockchain[i]['formattedTime'] = this.getRealTime(this.blockchain[i]["timestamp"])
+          }
+
         }
       },
       showBlock: function(item) {
         this.blockData = item
+        this.blockHeaders[0].text = 'Coins earned (' + this.blockData.data.length + "G in this block)"
       }
     },
     created() {

@@ -52,12 +52,12 @@
      background-color: #232225 !important;
      position: absolute;
      right: 1em;
-     top: 0.1em;
+     top: 0;
  }
     .l-button {
         position: absolute;
         left: 1em;
-        top: 0.1em;
+        top: 0;
         background-color: #232225 !important;
     }
  .l-button2 {
@@ -68,8 +68,14 @@
  }
     @media screen and (max-width: 768px)  {
         .l-button {
-            left: 0em;
-            right: 0em;
+            left: 0;
+            right: 0;
+            top: 0;
+        }
+        .r-button {
+            left: 0;
+            right: 0;
+            top: 8em;
         }
     }
 
