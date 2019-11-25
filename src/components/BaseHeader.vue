@@ -39,7 +39,6 @@
  }
 .connected {
     color: #e7e6e9;
-
 }
  .r-button {
      background-color: #232225 !important;

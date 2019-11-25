@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Node from '../views/Node.vue'
 import Wallet from '../views/Wallet.vue'
+import Send from '../views/Send.vue'
 Vue.use(VueRouter)
 
 const routes = [
@@ -20,6 +21,11 @@ const routes = [
     path: '/node/:node/wallet/:wallet',
     name: 'wallet',
     component: Wallet
+  },
+  {
+    path: '/send',
+    name: 'send',
+    component: Send
   }
 ]
 

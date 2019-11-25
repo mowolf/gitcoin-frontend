@@ -21,12 +21,12 @@ export default {
     data: () => ({
         importantLinks: [
             {
-                text: 'Documentation',
-                href: 'https://vuetifyjs.com',
+                text: 'Documentation Frontend',
+                href: 'https://github.com/mowolf/gitcoin-frontend',
             },
             {
-                text: 'Articles',
-                href: 'https://medium.com/vuetify',
+                text: 'Documentation Backend',
+                href: 'https://github.com/konstantinullrich/gitcoin',
             },
         ],
     })
@@ -35,7 +35,8 @@ export default {
 
 <style>
     .footer {
-        position: fixed;
+        position: relative;
+        margin-top: 200px !important;
         bottom: 0;
         width: 100%;
         left: 0;

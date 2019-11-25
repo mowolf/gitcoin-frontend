@@ -4,7 +4,6 @@
 
   <v-container>
     <v-layout text-center wrap>
-
       <v-flex mb-4>
         <v-data-table
                 :headers="headers"
@@ -12,19 +11,14 @@
                 :items-per-page="10"
                 class="elevation-1"
                 dark
-                disable-sort
         >
-
           <template v-slot:item.creator_short="{ item }">
           <v-tooltip bottom>
             <template v-slot:activator="{ on }">
-
               <router-link :to="node +'/wallet/'+ encodeURI(item.creator).replace(/\//g, '-')" v-if="item.creator != 'Genesis Block'">
                 <span v-on="on">{{item.creator_short}}</span>
               </router-link>
-
               <span v-if="item.creator_short == 'Genesis Block'">Genesis Block</span>
-
             </template>
             <span>{{item.creator}}</span>
           </v-tooltip>
@@ -99,7 +93,6 @@
             </v-tooltip>
           </template>
         </v-data-table>
-
         <div class="bottom"></div>
       </v-flex>
     </v-layout>
@@ -143,14 +136,10 @@
       getApi: async function (apiUrl) {
         let res = await this.axios.get(apiUrl)
         this.blockchain = res.data.reverse()
+        let index = ''
         for (var i = 0; i < this.blockchain.length; i++) {
-
           if (this.blockchain[i]['creator'] == '') {
-            this.blockchain[i]['creator_short'] = 'Genesis Block'
-            this.blockchain[i]['creator'] = 'Genesis Block'
-            this.blockchain[i]['transactions'] = this.blockchain[i]['data'].length
-            this.blockchain[i]['signature_short'] = ''
-            this.blockchain[i]['formattedTime'] = this.getRealTime(this.blockchain[i]["timestamp"])
+            index = i
           }
           else {
             this.blockchain[i]['transactions'] = this.blockchain[i]['data'].length
@@ -158,10 +147,12 @@
             this.blockchain[i]['signature_short'] = this.blockchain[i]['signature'].substring(0, 20) + "..."
             this.blockchain[i]['formattedTime'] = this.getRealTime(this.blockchain[i]["timestamp"])
           }
-
-
-
         }
+        // remove genesis block
+        if (index != '') {
+          this.blockchain.splice(index, 1);
+        }
+
       },
       showBlock: function(item) {
         this.blockData = item
