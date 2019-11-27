@@ -8,7 +8,7 @@
       <v-flex mb-4>
           <v-tooltip bottom>
             <template v-slot:activator="{ on }">
-              <h4 class="left"  v-on="on">Wallet: <span class="extra">{{wallet.substr(0,50)}}..</span></h4>
+              <h4 class="left"  v-on="on">Wallet: <span class="extra">{{decodeURIComponent(wallet)}}</span></h4>
             </template>
             <span>{{wallet}}</span>
           </v-tooltip>

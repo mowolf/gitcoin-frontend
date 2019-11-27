@@ -4,7 +4,7 @@ A Cryptocurrency to support open source contributors using Google's dartlang.
 Gitcoin is obtained by contributing to open source development on github and can be traded
 between users.
 
-> A Blockchain explorer is avaliable at https://github.com/mowolf/gitcoin-frontend
+> A Blockchain Node is avaliable at https://github.com/konstantinullrich/gitcoin
 
 
 # Features

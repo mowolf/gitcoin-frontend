@@ -2,14 +2,6 @@
   <v-container>
     <v-layout text-center wrap>
       <v-flex mb-5 xs12>
-          <v-layout justify-center>
-            <h1 class="input input_">
-              From Address
-              <br>
-              <input class="input_" v-model="fromAddress" placeholder="enter address">
-            </h1>
-          </v-layout>
-        <br>
 
         <v-layout justify-center>
           <h1 class="input input_">
@@ -59,11 +51,11 @@
     name: 'Home',
     components: {},
     data: () => ({
-      fromAddress: '',
       toAddress: '',
       amount: '',
       secretKey: '',
-      response: ''
+      response: '',
+      apiUrl: ''
     }),
     methods: {
       sendData: async function (apiUrl, payload) {
@@ -72,17 +64,17 @@
       },
       sendMoney: function () {
         let payload = {
-          "fromAddress": this.fromAddress.trim(),
           "toAddress": this.toAddress.trim(),
           "amount": parseInt(this.amount.trim()),
           "secretKey": this.secretKey.trim()
         }
-        this.sendData('http://localhost:3000/transaction', payload)
+        this.sendData(this.apiUrl, payload)
 
       }
     },
     created() {
-
+      this.node = this.$route.params.node
+      this.apiUrl = 'http://' + this.node + '/transaction';
     }
   };
 

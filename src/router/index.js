@@ -23,7 +23,7 @@ const routes = [
     component: Wallet
   },
   {
-    path: '/send',
+    path: '/node/:node/send',
     name: 'send',
     component: Send
   }
